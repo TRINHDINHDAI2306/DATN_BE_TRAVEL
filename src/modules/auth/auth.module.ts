@@ -4,6 +4,7 @@ import { ActorRoleDecorator } from 'src/shares/decorators/get-role.decorator'
 import { ActorID } from 'src/shares/decorators/get-user-id.decorator'
 import { ActorRole } from 'src/shares/enum/auth.enum'
 import { Response } from 'src/shares/response/response.interface'
+
 import { AuthService } from './auth.service'
 import { ActiveUserDto } from './dto/active-user.dto'
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
