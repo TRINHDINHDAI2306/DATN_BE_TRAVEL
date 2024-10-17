@@ -4,10 +4,10 @@ import { Response } from 'src/shares/response/response.interface'
 import { AdminAuthGuard } from '../auth/guards/admin-auth.guard'
 import { AdminModAuthGuard } from '../auth/guards/admin-mod-auth.guard'
 import { AdminService } from './admin.service'
-import { ActiveAdminDto } from './dtos/active-admin.dto'
-import { AdminUpdateMod } from './dtos/change-mod-status.dto'
-import { CreateAdminDto } from './dtos/create-admin.dto'
-import { GetListAdminDto } from './dtos/get-list-admin.dto'
+import { ActiveAdminDto } from './dto/active-admin.dto'
+import { AdminUpdateMod } from './dto/change-mod-status.dto'
+import { CreateAdminDto } from './dto/create-admin.dto'
+import { GetListAdminDto } from './dto/get-list-admin.dto'
 
 @Controller('admin')
 @ApiTags('Admin')
