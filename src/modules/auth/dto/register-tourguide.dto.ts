@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
-    ArrayMaxSize,
-    ArrayMinSize,
-    IsArray,
-    IsDateString,
-    IsEmail,
-    IsEnum,
-    IsNotEmpty,
-    IsString,
-    MaxLength,
-    MinLength,
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsDateString,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
 } from 'class-validator'
 import { Gender } from 'src/shares/enum/tourguide.enum'
 
