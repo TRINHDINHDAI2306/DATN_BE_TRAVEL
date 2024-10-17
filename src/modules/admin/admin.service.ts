@@ -16,10 +16,10 @@ import { Response } from 'src/shares/response/response.interface'
 import { In } from 'typeorm'
 
 import { MailService } from '../mail/mail.service'
-import { ActiveAdminDto } from './dtos/active-admin.dto'
-import { AdminUpdateMod } from './dtos/change-mod-status.dto'
-import { CreateAdminDto } from './dtos/create-admin.dto'
-import { GetListAdminDto } from './dtos/get-list-admin.dto'
+import { ActiveAdminDto } from './dto/active-admin.dto'
+import { AdminUpdateMod } from './dto/change-mod-status.dto'
+import { CreateAdminDto } from './dto/create-admin.dto'
+import { GetListAdminDto } from './dto/get-list-admin.dto'
 
 @Injectable()
 export class AdminService {
