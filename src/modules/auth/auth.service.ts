@@ -16,7 +16,9 @@ import { httpErrors } from 'src/shares/exceptions'
 import { httpResponse } from 'src/shares/response'
 import { Response } from 'src/shares/response/response.interface'
 import { In, Not } from 'typeorm'
-import { MailService } from '../mail/mail.service'
+
+import { MailService } from '../mail/mail.sevice'
+
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
 import { LoginDto } from './dto/login.dto'
 import { RegisterTourguideDto } from './dto/register-tourguide.dto'
