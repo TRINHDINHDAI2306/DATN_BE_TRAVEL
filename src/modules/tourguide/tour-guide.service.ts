@@ -1,6 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import { createHmac } from 'crypto'
+import { promisify } from 'util'
+
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import * as moment from 'moment'
+import * as qs from 'qs'
 import { vnPayConfig } from 'src/configs/digital-wallet'
 import { PostRepository } from 'src/models/repositories/post.repository'
 import { TourGuideRepository } from 'src/models/repositories/tourguide.repository'
@@ -16,14 +19,19 @@ import { httpErrors } from 'src/shares/exceptions'
 import { httpResponse } from 'src/shares/response'
 import { Response } from 'src/shares/response/response.interface'
 import { Between, In } from 'typeorm'
-import { promisify } from 'util'
-import { AdminGetTourGuideDto, GetTourGuideDto } from './dtos/get-tour-guide.dto'
-import { ResponseInterviewTourguideDto } from './dtos/response-interview.dto'
-import { ResponseRegisterTourguideDto } from './dtos/response-registation-tourguide.dto'
-import { TransferDto } from './dtos/transfer.dto'
-import { UpdateTourguideInformationDto } from './dtos/update-infor.dto'
-import { UpdateStatusTourGuideDto } from './dtos/update-status-tourguide.dto'
-const getIP = promisify(require('external-ip')())
+
+import { AdminGetTourGuideDto, GetTourGuideDto } from './dto/get-tour-guide.dto'
+import { ResponseInterviewTourguideDto } from './dto/response-interview.dto'
+import { ResponseRegisterTourguideDto } from './dto/response-registation-tourguide.dto'
+import { TransferDto } from './dto/transfer.dto'
+import { UpdateTourguideInformationDto } from './dto/update-infor.dto'
+import { UpdateStatusTourGuideDto } from './dto/update-status-tourguide.dto'
+
+let getIP
+;(async () => {
+  const externalIpModule = await import('external-ip')
+  getIP = promisify(externalIpModule.default())
+})()
 
 @Injectable()
 export class TourGuideService {
@@ -138,7 +146,7 @@ export class TourGuideService {
     }
     const avgStar = await this.tourGuideRepository.getAvgStar(tourGuideId)
     const numberOfOrder = tourGuide.orders.filter((order) => {
-      order.status === OrderStatus.DONE
+      return order.status === OrderStatus.DONE
     }).length
     return {
       ...httpResponse.GET_TOURGUIDE_SUCCESS,
@@ -253,14 +261,13 @@ export class TourGuideService {
     const keys = []
 
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         keys.push(key)
       }
     }
 
     keys.sort()
-    const keysLength = keys.length
-    for (let i = 0; i < keysLength; i++) {
+    for (let i = 0; i < keys.length; i++) {
       sorted[keys[i]] = obj[keys[i]]
     }
 
@@ -287,7 +294,7 @@ export class TourGuideService {
     const createDate = moment(date).format('YYYYMMDDHHmmss')
     const orderId = moment(date).format('DDHHmmss')
     const amount = body.amount
-    const bankCode = 'NCB'
+    // const bankCode = 'NCB'
     const orderInfo = `${orderId}`
     const locale = 'vn'
     const currCode = 'VND'
@@ -309,13 +316,11 @@ export class TourGuideService {
     // vnp_Params['vnp_ExpireDate'] = expiredDate;
     // }
     vnp_Params = this.sortObject(vnp_Params)
-    const querystring = require('qs')
-    const signData = querystring.stringify(vnp_Params, { encode: true })
-    const crypto = require('crypto')
-    const hmac = crypto.createHmac('sha512', secretKey)
+    const signData = qs.stringify(vnp_Params, { encode: true })
+    const hmac = createHmac('sha512', secretKey)
     const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex')
     vnp_Params['vnp_SecureHash'] = signed
-    vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: true })
+    vnpUrl += '?' + qs.stringify(vnp_Params, { encode: true })
     await this.transactionRepository.insert({
       status: TransactionStatus.VNPAY_PENDING,
       amount,
