@@ -1,5 +1,5 @@
 import * as moment from 'moment'
-import { GetTourGuideDto } from 'src/modules/tourguide/dtos/get-tour-guide.dto'
+import { GetTourGuideDto } from 'src/modules/tourguide/dto/get-tour-guide.dto'
 import { BasePaginationResponseDto } from 'src/shares/dtos/base-pagination.dto'
 import { Direction, OrderStatus } from 'src/shares/enum/order.enum'
 import { TourguideStatus } from 'src/shares/enum/tourguide.enum'

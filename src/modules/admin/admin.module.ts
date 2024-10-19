@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt'
 
 import { MailModule } from '../mail/mail.module'
+
 import { AdminController } from './admin.controller'
 import { AdminService } from './admin.service'
 
